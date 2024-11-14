@@ -1,11 +1,13 @@
 const express = require('express');
 
 const respuesta = require('../../red/respuestas.js');
+const controlador = require('./controlador.js')
 
 const router = express.Router();
 
 router.get('/', function (req, res){
-    respuesta.success(req, res, 'todo ok', 200)
+    const todos = controlador.todos();
+    respuesta.success(req, res, todos, 200)
 });
 
 module.exports = router;
