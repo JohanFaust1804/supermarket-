@@ -1,12 +1,21 @@
 const mysql2 = require('mysql2');
 const config = require('../config');
 
-function todos (tabla){
+const prueba = {
+    id : 1,
+    nombre: 'Juan',
+    apellido: 'Perez',
+    edad: 30
+}
 
+function todos (tabla){
+    return prueba;
 }
 
 function uno (tabla, id){
-
+    if(tabla === tabla){
+        console.log('tabla igual');
+    }
 }
 
 function agregar(tabla, data) {
