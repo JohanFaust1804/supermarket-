@@ -6,7 +6,7 @@ const dbconfig = {
     user: config.mysql.user,
     password: config.mysql.password,
     database: config.mysql.database
-}
+};
 
 let conexion;
 
@@ -16,7 +16,7 @@ function conMysql() {
     conexion.connect((err) => {
         if (err){
             console.log(['db err'], err);
-            setTimeout(conMysql, 200)
+            setTimeout(conMysql, 200);
         } else {
             console.log('db conectada!!!');
         }
@@ -29,25 +29,36 @@ function conMysql() {
         } else{
             throw err; 
         }
+    })
+}
+
+conMysql(); // Inicia la conexión a la base de datos
+
+function todos(tabla) {
+    return new Promise((resolve, reject) => {
+        conexion.query(`SELECT * FROM ${tabla}`, (error, result) => { // Usa el parámetro para evitar inyección SQL
+            if (error) {
+                console.error('Error en la consulta:', error);
+                return reject(error);
+            }
+            resolve(result); // Devuelve los resultados
+        });
     });
 }
 
-function todos (tabla){
-    return prueba;
-}
 
-function uno (tabla, id){
-    if(tabla === tabla){
+function uno (tabla, id) {
+    if(tabla === tabla) {
         console.log('tabla igual');
     }
 }
 
 function agregar(tabla, data) {
-
+    // Implementar lógica de agregar
 }
 
-function eliminar (tabla, id){
-
+function eliminar(tabla, id) {
+    // Implementar lógica de eliminar
 }
 
 module.exports = {
@@ -55,4 +66,4 @@ module.exports = {
     uno,
     agregar,
     eliminar
-}
+};
