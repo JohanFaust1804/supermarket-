@@ -36,11 +36,12 @@ conMysql(); // Inicia la conexión a la base de datos
 
 function todos(tabla) {
     return new Promise((resolve, reject) => {
-        conexion.query(`SELECT * FROM ${tabla}`, (error, result) => { // Usa el parámetro para evitar inyección SQL
+        conexion.query('SELECT * FROM ??', [tabla], (error, result) => { // Usando placeholders para evitar inyección SQL
             if (error) {
-                console.error('Error en la consulta:', error);
+                console.error('Error en la consulta:', error); // Muestra el error en consola para debug
                 return reject(error);
             }
+            console.log('Registros obtenidos:', result); // Asegúrate de que los resultados son correctos
             resolve(result); // Devuelve los resultados
         });
     });
