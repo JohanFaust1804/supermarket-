@@ -1,13 +1,20 @@
-const express = require("express");
-const config = require('./config');
+        const express = require("express");
+        const morgan = require('morgan');
+        const config = require('./config');
 
-const clientes = require('./modulos/clientes/rutas');
 
-const app = express();
+        const clientes = require('./modulos/clientes/rutas');
 
-app.set('port', config.app.port);
+        const app = express();
 
-//rutas
-app.use('/api/clientes', clientes);
+        //Midleware
+        app.use(morgan('dev'));
 
-module.exports = app;
+
+        //Config
+        app.set('port', config.app.port);
+
+        //rutas
+        app.use('/api/clientes', clientes);
+
+        module.exports = app;

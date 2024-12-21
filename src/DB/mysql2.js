@@ -48,10 +48,17 @@ function todos(tabla) {
 }
 
 
-function uno (tabla, id) {
-    if(tabla === tabla) {
-        console.log('tabla igual');
-    }
+function uno(tabla, id) {
+    return new Promise((resolve, reject) => {
+        conexion.query(`SELECT * FROM ${tabla} where id=${id}`, (error, result) => { // Usando placeholders para evitar inyección SQL
+            if (error) {
+                console.error('Error en la consulta:', error); // Muestra el error en consola para debug
+                return reject(error);
+            }
+            console.log('Registros obtenidos:', result); // Asegúrate de que los resultados son correctos
+            resolve(result); // Devuelve los resultados
+        });
+    });
 }
 
 function agregar(tabla, data) {
