@@ -4,8 +4,12 @@ const respuesta = require('../../red/respuestas.js');
 const controlador = require('./controlador.js')
 
 const router = express.Router();
+router.get('/', todos);
+router.get('/:id', uno);
 
-router.get('/', async (req, res) => {
+
+
+ async function todos (req, res) {
     try{
         const items = await controlador.todos(); // Llama la función todos con el nombre de la tabla
         console.log('Datos recibidos de la base de datos:', items); // Muestra los datos recibidos
@@ -14,9 +18,9 @@ router.get('/', async (req, res) => {
         console.error('Error al obtener el cliente:', error);
         respuesta.error(req, res, err, 500); // Maneja el error
     }
-});
+};
 
-router.get('/:id', async function (req, res) {
+ async function uno (req, res) {
     try{
         const items = await controlador.uno(req.params.id); // Llama la función todos con el nombre de la tabla
     console.log('Datos recibidos de la base de datos:', items); // Muestra los datos recibidos
@@ -26,6 +30,6 @@ router.get('/:id', async function (req, res) {
         respuesta.error(req, res, err, 500); // Maneja el error
     }
     
-});
+};
 
 module.exports = router;

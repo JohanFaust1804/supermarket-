@@ -37,12 +37,11 @@ conMysql(); // Inicia la conexión a la base de datos
 function todos(tabla) {
     return new Promise((resolve, reject) => {
         conexion.query('SELECT * FROM ??', [tabla], (error, result) => { // Usando placeholders para evitar inyección SQL
-            if (error) {
-                console.error('Error en la consulta:', error); // Muestra el error en consola para debug
-                return reject(error);
-            }
-            console.log('Registros obtenidos:', result); // Asegúrate de que los resultados son correctos
-            resolve(result); // Devuelve los resultados
+        console.error('Error en la consulta:', error); // Muestra el error en consola para debug
+        return error ? reject (error) :resolve (result);
+            
+        console.log('Registros obtenidos:', result); // Asegúrate de que los resultados son correctos
+        resolve(result); // Devuelve los resultados
         });
     });
 }
@@ -51,12 +50,11 @@ function todos(tabla) {
 function uno(tabla, id) {
     return new Promise((resolve, reject) => {
         conexion.query(`SELECT * FROM ${tabla} where id=${id}`, (error, result) => { // Usando placeholders para evitar inyección SQL
-            if (error) {
-                console.error('Error en la consulta:', error); // Muestra el error en consola para debug
-                return reject(error);
-            }
-            console.log('Registros obtenidos:', result); // Asegúrate de que los resultados son correctos
-            resolve(result); // Devuelve los resultados
+        console.error('Error en la consulta:', error); // Muestra el error en consola para debug
+        return error ? reject (error) :resolve (result);
+            
+        console.log('Registros obtenidos:', result); // Asegúrate de que los resultados son correctos
+        resolve(result); // Devuelve los resultados
         });
     });
 }
