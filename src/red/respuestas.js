@@ -9,9 +9,9 @@ exports.success = function (req, res, mensaje = 'todo ok desde clientes', status
 
 exports.error = function (req, res, mensaje = 'error interno', status = 500) {
 
-    res.status(statusCode).send({
+    res.status(status).send({
         error : true, 
-        status : statusCode,
+        status : status,
         body : mensaje 
         
     });

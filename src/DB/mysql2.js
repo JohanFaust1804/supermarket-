@@ -49,7 +49,7 @@ function todos(tabla) {
 
 function uno(tabla, id) {
     return new Promise((resolve, reject) => {
-        conexion.query(`SELECT * FROM ${tabla} where id=${id}`, (error, result) => { // Usando placeholders para evitar inyección SQL
+        conexion.query('SELECT * FROM ?? where id= ?', [tabla, id], (error, result) => { // Usando placeholders para evitar inyección SQL
         console.error('Error en la consulta:', error); // Muestra el error en consola para debug
         return error ? reject (error) :resolve (result);
             
@@ -57,15 +57,38 @@ function uno(tabla, id) {
         resolve(result); // Devuelve los resultados
         });
     });
+
+    
 }
 
 function agregar(tabla, data) {
     // Implementar lógica de agregar
 }
 
-function eliminar(tabla, id) {
-    // Implementar lógica de eliminar
+function eliminar(tabla, data) {
+    // Verificar si el nombre de la tabla es una cadena válida
+    if (typeof tabla !== 'string' || tabla.trim() === '') {
+        throw new Error("El nombre de la tabla no es válido");
+    }
+
+    // Verificar si el id está presente en el objeto data
+    if (!data || !data.id) {
+        throw new Error("ID no proporcionado");
+    }
+
+    return new Promise((resolve, reject) => {
+        conexion.query('DELETE FROM ?? where id = ?', [tabla, data.id], (error, result) => {
+            if (error) {
+                console.error('Error en la consulta:', error);
+                return reject(error);
+            }
+            
+            console.log('Registro eliminado:', result);
+            resolve(result);
+        });
+    });
 }
+
 
 module.exports = {
     todos,
