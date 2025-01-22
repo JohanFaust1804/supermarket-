@@ -66,28 +66,14 @@ function agregar(tabla, data) {
 }
 
 function eliminar(tabla, data) {
-    // Verificar si el nombre de la tabla es una cadena válida
-    if (typeof tabla !== 'string' || tabla.trim() === '') {
-        throw new Error("El nombre de la tabla no es válido");
-    }
-
-    // Verificar si el id está presente en el objeto data
-    if (!data || !data.id) {
-        throw new Error("ID no proporcionado");
-    }
-
-    return new Promise((resolve, reject) => {
-        conexion.query('DELETE FROM ?? where id = ?', [tabla, data.id], (error, result) => {
-            if (error) {
-                console.error('Error en la consulta:', error);
-                return reject(error);
-            }
-            
-            console.log('Registro eliminado:', result);
-            resolve(result);
-        });
+    return new Promise( (resolve, reject) => {
+        conexion.query(`DELETE FROM ${tabla} WHERE id=?`, data.id, (error, result) =>{
+        return error ? reject (error) : resolve (result);    
+        
     });
+});
 }
+
 
 
 module.exports = {
@@ -95,4 +81,4 @@ module.exports = {
     uno,
     agregar,
     eliminar
-};
+}
