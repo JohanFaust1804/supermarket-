@@ -36,7 +36,7 @@ async function uno (req, res) {
 async function eliminar (req, res) {
     try {
         const items = await controlador.eliminar(req.body); // Llama la función eliminar con los datos del cliente
-        respuesta.success(req, res, 'Cliente eliminado correctamente', 200); // Devuelve mensaje al cliente
+        respuesta.success(req, res, items, 'Cliente eliminado correctamente', 200); // Devuelve mensaje al cliente
     } catch (error) {
         console.error('Error al eliminar el cliente:', error);
         respuesta.error(req, res, error, 500); // Maneja el error
