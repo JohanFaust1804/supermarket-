@@ -61,8 +61,43 @@ function uno(tabla, id) {
     
 }
 
+function insertar(tabla, data) {
+    return new Promise( (resolve, reject) => {
+        conexion.query(`INSERT INTO ${tabla} SET ?`, data, (error, result) =>{
+        return error ? reject (error) : resolve (result);    
+        
+    });
+});
+}
+
+function actualizar(tabla, data) {
+    return new Promise( (resolve, reject) => {
+        conexion.query(`UPDATE ${tabla} SET ? WHERE id=?`, [data, data.id], (error, result)  =>{
+        return error ? reject (error) : resolve (result);    
+        
+    });
+});
+}
+
 function agregar(tabla, data) {
-    // Implementar lógica de agregar
+    
+    console.log('Datos recibidos para agregar/actualizar:', data);  // Revisa lo que recibes
+
+    const clienteData = {
+        id: data.id,
+        nombre: data.nombre,
+        edad: data.edad,
+        profesion: data.profesion
+    };
+
+    // Revisa los datos filtrados antes de pasarlos a la base de datos
+    console.log('Datos filtrados para la consulta SQL:', clienteData);
+    
+    if(data && data.id == 0) {
+        return insertar(tabla, data);
+    } else {
+        return actualizar(tabla, data);
+    }
 }
 
 function eliminar(tabla, data) {

@@ -14,9 +14,14 @@ function eliminar(body)  {
     return db.eliminar(TABLA, body)
 }
 
+function agregarCliente(body)  {
+    return db.agregar(TABLA, body)
+}
+
 module.exports = {
     todos,
     uno,
-    eliminar
+    eliminar,
+    agregarCliente 
 }
 
