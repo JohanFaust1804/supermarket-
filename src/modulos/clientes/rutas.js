@@ -1,6 +1,6 @@
 const express = require('express');
 const respuesta = require('../../red/respuestas.js');
-const controlador = require('./controlador.js');
+const controlador = require('./index.js');
 const { agregar } = require('../../DB/mysql2.js');
 const router = express.Router();
 
