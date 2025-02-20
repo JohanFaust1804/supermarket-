@@ -1,39 +1,38 @@
-        const express = require("express");
-        const morgan = require('morgan');
-        const cors = require('cors');
-        const config = require('./config');
+const express = require("express");
+const morgan = require('morgan');
+const cors = require('cors');
+const config = require('./config');
 
 
-        const clientes = require('./modulos/clientes/rutas');
-        const usuarios = require('./modulos/usuarios/rutas');
-        const error = require('./red/errors');
+const clientes = require('./modulos/clientes/rutas');
+const usuarios = require('./modulos/usuarios/rutas');
+const error = require('./red/errors');
+const errors = require("./red/errors");
 
-        const app = express();
+const app = express();
 
-        // CORS
-        var corsOptions = {
-                origin: '*',
-                optionsSuccessStatus: 200
-    
-        }
+// CORS
+var corsOptions = {
+        origin: '*',
+        optionsSuccessStatus: 200
 
-        //Midleware
-        app.use(morgan('dev'));
-        app.use(cors(corsOptions));
-        app.use(express.json());
-        app.use(express.urlencoded({ extended: true }));
-        app.use(morgan('dev'));
-        app.use(express.json());
-        app.use(express.urlencoded({ extended: true }));
-         
+}
+
+//Midleware
+app.use(morgan('dev'));
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+ 
 
 
-        //Config
-        app.set('port', config.app.port);
+//Config
+app.set('port', config.app.port);
 
-        //rutas
-        app.use('/api/clientes', clientes);
-        app.use('/api/usuarios', usuarios);
-        app.use(error);
+//rutas
+app.use('/api/clientes', clientes);
+app.use('/api/usuarios', usuarios);
 
-        module.exports = app;
+
+module.exports = app;
