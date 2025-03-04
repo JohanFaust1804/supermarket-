@@ -7,7 +7,7 @@ const router = express.Router();
 // Rutas
 router.get('/', todos);
 router.get('/:id', uno);
-router.post('/', agregarCliente);
+router.post('/', agregarUsuarios);
 router.delete('/:id', eliminar);  // Cambié PUT por DELETE para eliminar correctamente
 
 // Función para obtener todos los clientes
@@ -35,18 +35,18 @@ async function uno(req, res) {
 }
 
 // Función para agregar un cliente
-async function agregarCliente(req, res) {
+async function agregarUsuarios(req, res) {
     try {
-        const items = await controlador.agregarCliente(req.body); // Llama la función agregar con los datos del cliente
+        const items = await controlador.agregarUsuario(req.body); // Llama la función agregar con los datos del cliente
         let message;
         if (req.body.id == 0) {
-            message = 'Cliente guardado con éxito';
+            message = 'Usuario guardado con éxito';
         } else {
-            message = 'Cliente actualizado con éxito';
+            message = 'Usuario actualizado con éxito';
         }
         respuesta.success(req, res, { message, data: items }, 200); // Devuelve mensaje y datos al cliente
     } catch (error) {
-        console.error('Error al agregar el cliente:', error);
+        console.error('Error al agregar el usuario:', error);
         respuesta.error(req, res, error, 500); // Maneja el error
     }
 }
@@ -55,7 +55,8 @@ async function agregarCliente(req, res) {
 async function eliminar(req, res) {
     try {
         const idCliente = req.params.id;  // Llama la función eliminar con los datos del cliente
-        respuesta.success(req, res, { message: 'Cliente eliminado correctamente', data: items }, 200); // Devuelve mensaje y datos al cliente
+        const items = await controlador.eliminar({id: idCliente});// Devuelve mensaje y datos al cliente
+        respuesta.success(req, res, { message: 'Cliente eliminado correctamente', data: items }, 200);
     } catch (error) {
         console.error('Error al eliminar el cliente:', error);
         respuesta.error(req, res, error, 500); // Maneja el error
