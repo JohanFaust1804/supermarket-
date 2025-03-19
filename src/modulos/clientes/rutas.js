@@ -54,8 +54,9 @@ async function agregarCliente(req, res) {
 // Función para eliminar un cliente
 async function eliminar(req, res) {
     try {
-        const items = await controlador.eliminar(req.body); // Llama la función eliminar con los datos del cliente
-        respuesta.success(req, res, { message: 'Cliente eliminado correctamente', data: items }, 200); // Devuelve mensaje y datos al cliente
+        const idUsuario = req.params.id  // Llama la función eliminar con los datos del cliente
+        const items = await controlador.eliminar({id: idUsuario});
+        respuesta.success(req, res, { message: 'Usuario eliminado correctamente', data: items }, 200); // Devuelve mensaje y datos al cliente
     } catch (error) {
         console.error('Error al eliminar el cliente:', error);
         respuesta.error(req, res, error, 500); // Maneja el error

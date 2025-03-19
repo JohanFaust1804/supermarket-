@@ -29,33 +29,44 @@ function conMysql() {
         } else {
             throw err;
         }
-    })
+    });
 }
 
-conMysql(); // Inicia la conexión a la base de datos
+conMysql();
 
 function todos(tabla) {
     return new Promise((resolve, reject) => {
         conexion.query('SELECT * FROM ??', [tabla], (error, result) => {
-            console.error('Error en la consulta:', error); // Muestra el error en consola para debug
+            console.error('Error en la consulta:', error);
             return error ? reject(error) : resolve(result);
-
-            console.log('Registros obtenidos:', result); // Asegúrate de que los resultados son correctos
-            resolve(result); // Devuelve los resultados
         });
     });
 }
 
 function uno(tabla, id) {
     return new Promise((resolve, reject) => {
-        conexion.query('SELECT * FROM ?? where id= ?', [tabla, id], (error, result) => {
-            console.error('Error en la consulta:', error); // Muestra el error en consola para debug
+        conexion.query('SELECT * FROM ?? WHERE id = ?', [tabla, id], (error, result) => {
+            console.error('Error en la consulta:', error);
             return error ? reject(error) : resolve(result);
-
-            console.log('Registros obtenidos:', result); // Asegúrate de que los resultados son correctos
-            resolve(result); // Devuelve los resultados
         });
     });
+}
+
+function agregar(tabla, data) {
+    console.log('Datos recibidos para agregar/actualizar:', data);
+
+    const usuarioData = {
+        id: data.id,
+        nombre: data.nombre,
+        usuario: data.usuario,
+        activo: data.activo
+    };
+
+    if (data && data.id == 0) {
+        return insertar(tabla, usuarioData);
+    } else {
+        return actualizar(tabla, usuarioData);
+    }
 }
 
 function insertar(tabla, data) {
@@ -68,7 +79,7 @@ function insertar(tabla, data) {
 
 function actualizar(tabla, data) {
     return new Promise((resolve, reject) => {
-        const sql = `UPDATE ${tabla} SET ? WHERE id=?`;
+        const sql = `UPDATE ${tabla} SET ? WHERE id = ?`;
         conexion.query(sql, [data, data.id], (error, result) => {
             if (error) {
                 console.error('Error en la consulta SQL:', error);
@@ -79,47 +90,9 @@ function actualizar(tabla, data) {
     });
 }
 
-function agregar(tabla, data) {
-    console.log('Datos recibidos para agregar/actualizar:', data);  // Revisa lo que recibes
-
-    // Filtra y prepara los datos
-    const usuarioData = {
-        id: data.id,
-        nombre: data.nombre,
-        usuario: data.usuario,
-        activo: data.activo
-    }
-
-    const clienteData = {
-        id: data.id,
-        nombre: data.nombre,
-        edad: data.edad,
-        profesion: data.profesion
-    };
-
-    // Revisa los datos filtrados antes de pasarlos a la base de datos
-    console.log('Datos filtrados para la consulta SQL:', usuarioData);
-
-    if (data && data.id == 0) {
-        return insertar(tabla, usuarioData);  // Pasa los datos filtrados
-    } else {
-        return actualizar(tabla, usuarioData);  // Pasa los datos filtrados
-    }
-
-    console.log('Datos filtrados para la consulta SQL:', usuarioData);
-
-    if (data && data.id == 0) {
-        return insertar(tabla, clienteData);  // Pasa los datos filtrados
-    } else {
-        return actualizar(tabla, clienteData);  // Pasa los datos filtrados
-    }
-
-
-}
-
 function eliminar(tabla, data) {
     return new Promise((resolve, reject) => {
-        conexion.query(`DELETE FROM ${tabla} WHERE id=?`, data.id, (error, result) => {
+        conexion.query(`DELETE FROM ${tabla} WHERE id = ?`, data.id, (error, result) => {
             return error ? reject(error) : resolve(result);
         });
     });
@@ -130,4 +103,4 @@ module.exports = {
     uno,
     agregar,
     eliminar
-}
+};
